@@ -34,7 +34,7 @@
       :else (join (repeat indent-count
                           non-breaking-space)))))
 
-(defn code-line-html [content line]
+(defn code-line-html-combine [content line]
   (let [count (indent-count line)
         indent (indent-html count)]
     (list content
@@ -44,7 +44,7 @@
   (with-open [rdr (BufferedReader. (FileReader. (str static-path 
                                                      file-name)))]
     [:code
-     (reduce code-line-html
+     (reduce code-line-html-combine
              [:span]
              (line-seq rdr))]))
 
