@@ -1,11 +1,11 @@
 (ns noir-example.templates
   (:use noir.core
-        hiccup.page-helpers
+        hiccup.page
         [clojure.string :only (join)]
         
         ; local namespace
         noir-example.core
-        [noir-example.settings :only (static-path)])
+        noir-example.settings)
   
   (:import (java.io BufferedReader FileReader)))
 
@@ -23,7 +23,8 @@
 
 
 (defn indent-count [line]
-  (let [indent (re-find #"[\ ]*" line)]
+  (let [indent (re-find #"[\ ]*" 
+                        line)]
     (count indent)))
 
 (defn indent-html [indent-count]
@@ -36,9 +37,8 @@
 (defn code-line-html [content line]
   (let [count (indent-count line)
         indent (indent-html count)]
-    (list
-      content
-      indent [:span line] [:br])))
+    (list content
+          indent [:span line] [:br])))
 
 (defn code-block [file-name]
   (with-open [rdr (BufferedReader. (FileReader. (str static-path 

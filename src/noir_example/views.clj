@@ -2,8 +2,9 @@
   (:gen-class)
   (:use noir.core
         hiccup.core
-        hiccup.form-helpers
-        hiccup.page-helpers
+        hiccup.element
+        hiccup.form
+        hiccup.page
         
         ; local namespace
         noir-example.core
@@ -18,6 +19,12 @@
 
 
 
+(defpage "/foo*" {:as params}
+  (let [params-str (str params)
+        url (get params :*)]
+  (main-layout
+    [:p params-str]
+    [:p url])))
 
 (pre-route "/admin/*" {}
            (when-not (session/get :admin)
@@ -35,7 +42,7 @@
   (session/remove! :admin)
   (resp/redirect "/"))
 
-(defpage "/login" {}
+(defpage login-page "/login" {}
   (main-layout
     (form-to [:post "/login"]
              (text-field "username" "Username")
@@ -66,13 +73,16 @@
     (form-to [:post "/params"]
              (text-field "hey"))))
 
-(defpage [:post "/params"] {hey :hey}
+(defpage [:post "/params"] {hey :hey
+                            params :params}
   (main-layout
     [:h2 "You posted something:"]
-    [:p hey]))
+    [:p hey]
+    [:p params]))
 
 (defpage "/render" {:as params}
-  (render [:post "/params"] {:hey "what's up?"}))
+  (render [:post "/params"] {:hey "what's up?"
+                             :params params}))
 
 (defpage "/json/:name" {n :name}
   (resp/json
@@ -137,9 +147,4 @@
 (server/add-middleware wrap-key :m2 "middleware 2 added this")
 
 
-
-
-(defpage "/code" []
-  (main-layout
-    (code-block "/views.clj")))
 

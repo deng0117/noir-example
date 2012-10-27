@@ -12,3 +12,8 @@
 (defn stop-server []
   (server/stop running-server))
 
+(defn restart-server []
+  (server/restart running-server))
+
+
+
