@@ -1,0 +1,10 @@
+code {
+  float: left;
+  display: inline;
+  border-radius: 8px;
+  padding: 10px;
+  background: #474949;
+  border: 2px solid #616363;
+  font-family: Monaco, Consolas, 'Courier New';
+  color: #6bffbd;
+}

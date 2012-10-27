@@ -3,16 +3,18 @@
   (:use noir.core
         hiccup.core
         hiccup.form-helpers
-        hiccup.page-helpers)
+        hiccup.page-helpers
+        
+        ; local namespace
+        noir-example.core
+        noir-example.templates)
+  
   (:require [noir.server :as server]
             [noir.cookies :as cookie]
             [noir.validation :as vali]
             [noir.statuses :as statuses]
             [noir.response :as resp]
             [noir.session :as session]))
-
-(use 'noir-example.core)
-(use 'noir-example.templates)
 
 
 
@@ -137,4 +139,7 @@
 
 
 
+(defpage "/code" []
+  (main-layout
+    (code-block "/views.clj")))
 
